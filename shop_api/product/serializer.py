@@ -45,5 +45,5 @@ class ProductReviewsSerializer(serializers.ModelSerializer):
 class ProductItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        # fields = '__all__'
-        depth = 1
+        fields = '__all__'
+
