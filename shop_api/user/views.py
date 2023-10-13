@@ -7,11 +7,11 @@ from django.contrib.auth import authenticate
 from .models import ConfirmCode
 from .serializer import AuthorizationValidateSerializer, RegistrationValidateSerializer, ConfirmCodeValidateSerializer
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
 
 
-@api_view(['POST'])
-def registration_api_view(request):
-    if request.method == 'POST':
+class RegistrationAPIView(APIView):
+    def post(self, request):
         serializer = RegistrationValidateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -23,9 +23,8 @@ def registration_api_view(request):
                         status=status.HTTP_201_CREATED)
 
 
-@api_view(['POST'])
-def authorization_api_view(request):
-    if request.method == 'POST':
+class AuthorizationAPIView(APIView):
+    def post(self, request):
         serializer = AuthorizationValidateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = authenticate(**serializer.validated_data)
@@ -36,8 +35,8 @@ def authorization_api_view(request):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 
-@api_view(['POST'])
-def confirm_api_view(request):
+class ConfirmAPIViews(APIView):
+    def post(self, request):
         serializer = ConfirmCodeValidateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
